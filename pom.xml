@@ -125,7 +125,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>neo.ehsanodyssey.obr.OnlineBookReadingAPI</mainClass>
+                    <mainClass>neo.ehsanodyssey.library.OnlineLibraryApplication</mainClass>
                     <layout>JAR</layout>
                     <excludes>
                         <exclude>
