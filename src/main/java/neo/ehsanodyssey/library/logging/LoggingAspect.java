@@ -22,15 +22,20 @@ import java.util.Arrays;
 @Slf4j
 public class LoggingAspect {
 
-    @Pointcut(
-            "within(neo.ehsanodyssey.library.rest.v*.*)" +
-                    "|| within(neo.ehsanodyssey.library.service..*)" +
-                    "|| within(neo.ehsanodyssey.library.dal.repository..*)"
-    )
-    public void packagesPointcut() {
-    }
+    @Pointcut("@within(org.springframework.stereotype.Controller) || " +
+            "@within(org.springframework.web.bind.annotation.RestController)")
+    void controllerClass() {}
 
-    @AfterThrowing(pointcut = "packagesPointcut()", throwing = "e")
+    @Pointcut("execution(@(@org.springframework.web.bind.annotation.RequestMapping *) * *(..))")
+    void controllerRequestMappingMethod() {}
+
+    @Pointcut("@within(org.springframework.stereotype.Service)")
+    void serviceClass() {}
+
+    @Pointcut("@within(org.springframework.stereotype.Repository)")
+    void repositoryClass() {}
+
+    @AfterThrowing(pointcut = "(controllerClass() && controllerRequestMappingMethod()) || serviceClass() || repositoryClass()", throwing = "e")
     public void logAfterThrowing(JoinPoint joinPoint, Throwable e) {
         log.error("Exception occurred in {} > {}() with cause --> {}",
                 joinPoint.getSignature().getDeclaringTypeName(),
@@ -38,7 +43,7 @@ public class LoggingAspect {
                 (e.getMessage() != null ? e.getMessage() : "EMPTY"));
     }
 
-    @Around("packagesPointcut()")
+    @Around("(controllerClass() && controllerRequestMappingMethod()) || serviceClass() || repositoryClass()")
     public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
         if (log.isDebugEnabled()) {
             log.debug("Enter: {} > {}() with argument[s] -->\n{}",

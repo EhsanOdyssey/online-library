@@ -21,5 +21,6 @@ public class UserDto implements Serializable {
     private String firstName;
     private String lastName;
     @Singular
+    @ToString.Exclude
     private List<LibraryDto> libraries;
 }

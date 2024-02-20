@@ -23,5 +23,6 @@ public class BookDto implements Serializable {
     private String isbn13;
     private String title;
     private int pages;
+    @ToString.Exclude
     private List<LibraryDto> libraries;
 }

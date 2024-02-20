@@ -25,4 +25,5 @@ public class LibraryDto implements Serializable {
     private LocalDateTime createdAt;
     private UserDto user;
     private List<BookDto> books;
+    private boolean active;
 }
