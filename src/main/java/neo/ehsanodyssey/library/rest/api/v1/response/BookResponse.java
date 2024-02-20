@@ -30,5 +30,6 @@ public class BookResponse {
     private String isbn13;
     private String title;
     private int pages;
+    @ToString.Exclude
     private List<LibraryResponse> libraries;
 }

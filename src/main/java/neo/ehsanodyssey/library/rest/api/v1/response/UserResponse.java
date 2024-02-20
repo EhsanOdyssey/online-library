@@ -32,5 +32,6 @@ public class UserResponse {
     private String lastName;
     @Singular
     @JsonIgnore
+    @ToString.Exclude
     private List<LibraryDto> libraries;
 }
